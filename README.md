@@ -34,8 +34,8 @@ Current project development file.
     3. Click 'Hue bridges' (should be first item on list)
     4. Assuming you have one router and didn't rename it, click the info icon to the right on the entry 'Philips hue'.
     5. The IP address will be listed along with a few other potentially useful value.
-    
-* Arduno to D1 pin mapping.
+
+* Arduno to D1 pin mapping:
 ```
 static const uint8_t SDA = PIN_WIRE_SDA;
 static const uint8_t SCL = PIN_WIRE_SCL;
@@ -53,5 +53,5 @@ static const uint8_t D6   = 12;
 static const uint8_t D7   = 13;
 static const uint8_t D8   = 15;
 static const uint8_t RX   = 3;
-static const uint8_t TX = 1;
+static const uint8_t TX   = 1;
 ```
