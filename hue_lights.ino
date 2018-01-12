@@ -1,10 +1,13 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
+// A file I declared my passwords and other sensitive info in
+// Delete it if you don't have one
+#include "env.h"
 
-const char* SSID = "WeeFee";
-const char* PASSWORD = "weefeeisnotfree";
-const char* NETWORK_ADDRESS = "http://192.168.1.105";
+const char* SSID = YOURWIFINAME;
+const char* PASSWORD = YOURWIFIPASSWORD;
+String NETWORK_ADDRESS = String("http://") + YOURHUEHUBIP;
 
 void setup() {
   // Turn on serial connection @ baud = 115200
@@ -26,7 +29,7 @@ void loop() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
-    http.begin("http://192.168.1.105/api/t6oNf6uzMpf4eDQIdl-aLStljrELRKKoA6GF1AoV/lights/2");
+    http.begin(String("http://") + YOURHUEHUBIP + String("/api/") + YOURDEVICEUSERNAME + String("/lights/2"));
 
     int httpCode = http.GET();
     Serial.println(httpCode);
@@ -37,7 +40,7 @@ void loop() {
       http.end();
       JsonObject& response = jsonBuffer.parseObject(httpResponse);
       if(response.success()) {
-        http.begin("http://192.168.1.105/api/t6oNf6uzMpf4eDQIdl-aLStljrELRKKoA6GF1AoV/lights/2/state");
+        http.begin(String("http://") + YOURHUEHUBIP + String("/api/") + YOURDEVICEUSERNAME + String("/lights/2/state"));
         String onState = response["state"]["on"];
         if(onState == "true") {
           http.PUT("{\"on\":false}");
