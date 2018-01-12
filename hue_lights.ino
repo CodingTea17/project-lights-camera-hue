@@ -2,9 +2,9 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 
-const char* SSID = "YOURWIFINAME";
-const char* PASSWORD = "YOURWIFIPASSWORD";
-const char* NETWORK_ADDRESS = "http://YOURHUEHUBIP";
+const char* SSID = "WeeFee";
+const char* PASSWORD = "weefeeisnotfree";
+const char* NETWORK_ADDRESS = "http://192.168.1.105";
 
 void setup() {
   // Turn on serial connection @ baud = 115200
@@ -26,7 +26,7 @@ void loop() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
-    http.begin("http://YOURHUEHUBIP/api/YOURDEVICEUSERNAME/lights/2");
+    http.begin("http://192.168.1.105/api/t6oNf6uzMpf4eDQIdl-aLStljrELRKKoA6GF1AoV/lights/2");
 
     int httpCode = http.GET();
     Serial.println(httpCode);
@@ -37,7 +37,7 @@ void loop() {
       http.end();
       JsonObject& response = jsonBuffer.parseObject(httpResponse);
       if(response.success()) {
-        http.begin("http://YOURHUEHUBIP/api/YOURDEVICEUSERNAME/lights/2/state");
+        http.begin("http://192.168.1.105/api/t6oNf6uzMpf4eDQIdl-aLStljrELRKKoA6GF1AoV/lights/2/state");
         String onState = response["state"]["on"];
         if(onState == "true") {
           http.PUT("{\"on\":false}");

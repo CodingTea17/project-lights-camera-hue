@@ -1,10 +1,13 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
+// A file I declared my passwords and other sensitive info in
+// Delete it if you don't have one
+#include "env.h"
 
-const char* SSID = "YOURWIFINAME";
-const char* PASSWORD = "YOURWIFIPASSWORD";
-const char* NETWORK_ADDRESS = "http://YOURHUEHUBIP";
+const char* SSID = YOURWIFINAME;
+const char* PASSWORD = YOURWIFIPASSWORD;
+String NETWORK_ADDRESS = String("http://") + YOURHUEHUBIP;
 int slideSwitch = 13;
 bool slideState = false;
 String lightState = "false";
@@ -57,7 +60,7 @@ bool didSlideChangeState() {
 void setLight(String newLightState) {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    http.begin("http://YOURHUEHUBIP/api/YOURDEVICEUSERNAME/lights/2/state");
+    http.begin(String("http://") + YOURHUEHUBIP + String("/api/") + YOURDEVICEUSERNAME + String("/lights/2/state"));
     String stateChange = String("{\"on\":") + newLightState + String("}");
     Serial.println(stateChange);
     http.PUT(stateChange);
@@ -69,7 +72,7 @@ String getLightState() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     Serial.println("ping");
-    http.begin("http://YOURHUEHUBIP/api/YOURDEVICEUSERNAME/lights/2");
+    http.begin(String("http://") + YOURHUEHUBIP + String("/api/") + YOURDEVICEUSERNAME + String("/lights/2"));
     int httpCode = http.GET();
     if (httpCode > 0) {      
       String httpResponse = http.getString();
